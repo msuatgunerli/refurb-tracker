@@ -138,19 +138,20 @@ def main():
         logged_data.append(logged_item)
 
     # Function to handle appending to the JSON file or creating a new one
-    def append_to_json(file_path, data):
-        if os.path.exists(file_path):
-            # If file exists, read the existing data
-            with open(file_path, "r") as f:
-                existing_data = json.load(f)
-            # Append the new data to the existing data
-            existing_data.extend(data)
-            with open(file_path, "w") as f:
-                json.dump(existing_data, f, indent=2)
+    def append_to_json(filename, new_data):
+        if os.path.exists(filename):
+            try:
+                with open(filename, "r") as f:
+                    existing_data = json.load(f)
+            except json.JSONDecodeError:
+                existing_data = []
         else:
-            # If file doesn't exist, create it and write the data
-            with open(file_path, "w") as f:
-                json.dump(data, f, indent=2)
+            existing_data = []
+
+        existing_data.extend(new_data)
+
+        with open(filename, "w") as f:
+            json.dump(existing_data, f, indent=2)
 
     # Now use the append_to_json function in your main code
     append_to_json("product_status_log.json", logged_data)
