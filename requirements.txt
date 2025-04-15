@@ -1,0 +1,6 @@
+requests
+selenium
+beautifulsoup4
+pytz
+pyyaml
+smtplib

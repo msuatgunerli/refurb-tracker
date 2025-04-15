@@ -1,0 +1,40 @@
+name: Run Nikon Scraper Every Hour
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # This runs the job every hour at minute 0
+  workflow_dispatch:  # Allows manual triggers
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run scraper
+      run: |
+        python nikon_scraper.py
+
+    - name: Check if any product is in stock and update GitHub issue
+      run: |
+        python send_github_notification.py
+
+    - name: Commit and push results (if changes)
+      run: |
+        git config --global user.email "your-email@example.com"
+        git config --global user.name "GitHub Actions"
+        git add product_status_log.json
+        git commit -m "Update product status log" || echo "No changes to commit"
+        git push
