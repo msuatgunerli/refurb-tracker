@@ -29,6 +29,7 @@ def get_issue_id():
             return None
 
         for issue in issues:
+            print(issue)
             if issue.get('title') == ISSUE_TITLE:
                 return issue['number']
         return None

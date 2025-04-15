@@ -31,6 +31,8 @@ jobs:
       run: |
         # Assuming you have a Python script (send_github_notification.py) that checks the stock and sends a notification if needed
         python send_github_notification.py
+      env:
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Pass the secret to the script
 
     - name: Commit and push results (if changes)
       run: |
