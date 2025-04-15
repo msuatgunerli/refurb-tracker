@@ -4,8 +4,8 @@ import requests
 
 # GitHub settings
 GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
-REPO_OWNER = "your-username-or-organization"  # GitHub username or organization
-REPO_NAME = "your-repository-name"  # GitHub repository name
+REPO_OWNER = "msuatgunerli"  # GitHub username or organization
+REPO_NAME = "refurb-tracker"  # GitHub repository name
 ISSUE_TITLE = "Nikon Scraper Results"  # The issue title
 
 # GitHub API URL
@@ -18,13 +18,25 @@ def get_issue_id():
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.get(GITHUB_API_URL, headers=headers)
-    issues = response.json()
-    
-    # Search for an issue with the title 'Nikon Scraper Results'
-    for issue in issues:
-        if issue['title'] == ISSUE_TITLE:
-            return issue['number']
-    return None
+
+    try:
+        response.raise_for_status()  # Raise an error for bad responses (4xx, 5xx)
+        issues = response.json()
+
+        # Make sure it's a list
+        if not isinstance(issues, list):
+            print("Unexpected issues response:", issues)
+            return None
+
+        for issue in issues:
+            if issue.get('title') == ISSUE_TITLE:
+                return issue['number']
+        return None
+
+    except requests.exceptions.RequestException as e:
+        print("GitHub API request failed:", e)
+        print("Response content:", response.text)
+        return None
 
 # Function to create a new issue
 def create_issue():
