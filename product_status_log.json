@@ -1,22 +1,2 @@
 [
-  {
-    "url": "https://www.nikonusa.com/p/nikkor-z-180-600mm-f56-63-vr-refurbished/20117Q",
-    "timestamp": "2025-04-15 02:07:24 EDT",
-    "stock_status": "Out of Stock",
-    "sale_price": 1234.97,
-    "original_price": 1899.95,
-    "you_save": 664.98,
-    "discount_label": "35% Off Select Refurbished Products",
-    "calculated_discount_pct": 35.0
-  },
-  {
-    "url": "https://www.nikonusa.com/p/nikkor-z-70-200mm-f28-vr-s-refurbished/20091B",
-    "timestamp": "2025-04-15 02:07:24 EDT",
-    "stock_status": "In Stock",
-    "sale_price": 1754.97,
-    "original_price": 2699.95,
-    "you_save": 944.98,
-    "discount_label": "35% Off Select Refurbished Products",
-    "calculated_discount_pct": 35.0
-  }
 ]
