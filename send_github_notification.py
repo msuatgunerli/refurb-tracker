@@ -2,6 +2,10 @@ import os
 import json
 import requests
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 # GitHub settings
 GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
 REPO_OWNER = "msuatgunerli"  # GitHub username or organization
@@ -84,14 +88,56 @@ def format_results():
 
     return result_message
 
+# def main():
+#     issue_id = get_issue_id()
+#     if issue_id is None:
+#         issue = create_issue()
+#         issue_id = issue['number']
+    
+#     results = format_results()
+#     comment_on_issue(issue_id, results)
+
+# if __name__ == "__main__":
+#     main()
+
+def send_email(subject, body, to_email):
+    from_email = os.getenv('FROM_EMAIL')
+    from_password = os.getenv('FROM_PASSWORD')
+    smtp_server = os.getenv('SMTP_SERVER')
+    smtp_port = os.getenv('SMTP_PORT')
+
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(from_email, from_password)
+        text = msg.as_string()
+        server.sendmail(from_email, to_email, text)
+        server.quit()
+        print("Email sent successfully")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
 def main():
     issue_id = get_issue_id()
     if issue_id is None:
         issue = create_issue()
         issue_id = issue['number']
-    
+
     results = format_results()
     comment_on_issue(issue_id, results)
+
+    # Send email notification
+    subject = "Nikon Scraper Results"
+    body = results
+    to_email = os.getenv('TO_EMAIL')
+    send_email(subject, body, to_email)
 
 if __name__ == "__main__":
     main()

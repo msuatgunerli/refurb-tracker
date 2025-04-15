@@ -34,10 +34,13 @@ jobs:
       env:
         MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Pass the secret to the script
 
-    - name: Commit and push results (if changes)
+    - name: Check if any product is in stock and update GitHub issue
       run: |
-        git config --global user.email "your-email@example.com"
-        git config --global user.name "GitHub Actions"
-        git add product_status_log.json
-        git commit -m "Update product status log" || echo "No changes to commit"
-        git push
+        python send_github_notification.py
+      env:
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        FROM_PASSWORD: ${{ secrets.FROM_PASSWORD }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        TO_EMAIL: ${{ secrets.TO_EMAIL }}
