@@ -3,7 +3,7 @@ import json
 import requests
 
 # GitHub settings
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
 REPO_OWNER = "your-username-or-organization"  # GitHub username or organization
 REPO_NAME = "your-repository-name"  # GitHub repository name
 ISSUE_TITLE = "Nikon Scraper Results"  # The issue title
@@ -14,7 +14,7 @@ GITHUB_API_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues"
 # Function to check if the issue already exists
 def get_issue_id():
     headers = {
-        "Authorization": f"Bearer {MY_GITHUB_TOKEN}",
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.get(GITHUB_API_URL, headers=headers)
