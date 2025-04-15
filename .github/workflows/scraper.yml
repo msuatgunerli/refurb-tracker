@@ -29,6 +29,7 @@ jobs:
 
     - name: Check if any product is in stock and update GitHub issue
       run: |
+        # Assuming you have a Python script (send_github_notification.py) that checks the stock and sends a notification if needed
         python send_github_notification.py
 
     - name: Commit and push results (if changes)

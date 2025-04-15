@@ -14,7 +14,7 @@ GITHUB_API_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues"
 # Function to check if the issue already exists
 def get_issue_id():
     headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Authorization": f"Bearer {MY_GITHUB_TOKEN}",
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.get(GITHUB_API_URL, headers=headers)
